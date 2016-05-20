@@ -1,0 +1,23 @@
+{
+  "name": "webapper/u-stdutils",
+  "description": "uStdUtils - μniversal Standard Util Classes for scalars and other basic PHP functionalities",
+  "keywords": ["php", "u-fw", "util pattern"],
+  "type": "library",
+  "homepage": "https://github.com/Webapper/u-stdutils",
+  "license": "Apache 2.0",
+  "authors": [
+	{
+	  "name": "Assarte D'Raven",
+	  "homepage": "http://webapper.hu"
+	}
+  ],
+  "minimum-stability": "alpha",
+  "require": {
+	  "php": ">=5.4.0"
+	},
+  "autoload": {
+	  "psr-4": {
+	    "Webapper\\": "Webapper"
+	  }
+  }
+}
