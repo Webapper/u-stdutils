@@ -26,6 +26,12 @@ class Arrays
         return $result;
     }
 
+    /**
+     * Returns the key of given nth item of given array
+     * @param array $array
+     * @param int $index
+     * @return mixed
+     */
     public static function getNthKey(array $array, $index) {
         if ($index >= count($array)) throw new \OutOfBoundsException(sprintf('Requested item #%s points over the array given with length: %s', $index, count($array)));
         $result = array_keys($array)[$index];
