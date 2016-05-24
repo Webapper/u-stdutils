@@ -26,4 +26,15 @@ class Strings
         }
         return $result;
     }
+
+    /**
+     * Inserts given subject into the string at passed position and returns the string
+     * @param string $into
+     * @param string $subject
+     * @param int $where
+     * @return string
+     */
+    public static function insertInto($into, $subject, $where) {
+        return substr_replace($into, $subject, $where, 0);
+    }
 }
