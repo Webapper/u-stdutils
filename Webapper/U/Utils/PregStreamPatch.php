@@ -10,9 +10,7 @@
  * Time: 17:46
  */
 
-namespace U\Utils;
-
-use Webapper\U\Utils\Strings;
+namespace Webapper\U\Utils;
 
 /**
  * Class PregStreamPatch

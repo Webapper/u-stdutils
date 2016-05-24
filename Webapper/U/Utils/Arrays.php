@@ -10,7 +10,7 @@
  * Time: 3:20
  */
 
-namespace U\Utils;
+namespace Webapper\U\Utils;
 
 class Arrays
 {
