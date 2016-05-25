@@ -94,9 +94,9 @@ class PregStreamPatch
      * the 'patch'-option means the index of first patch (from {@link $offsets}) and 'char'-option means offset in
      * characters from patch index (or beginning if 'patch' is NULL or left) - both could be left. On argument $length
      * the 'patch'-option means length in indices of patches and 'char' means offset in characters on top of the given
-     * 'patch'-option - both could be left or NULL, but works somehow differently: when 'patch' left or is NULL it's
-     * equals with $length=NULL, when 'char' left it will not counts but counted up to the next patch (or end of stream)
-     * if it was declared as NULL.
+     * 'patch'-option - both could be left or NULL, but works somehow differently: when 'patch' left equals with $length=NULL
+     * and 'patch'=NULL means no offset in patches defined, when 'char' left it will not counts but counted up to the
+     * next patch (or end of stream) if it was declared as NULL.
      *
      * @param int|array $from Beginning position on the separated stream
      * @param int|array $skip Skip-rules by SKIP_* constants
@@ -128,7 +128,11 @@ class PregStreamPatch
             $lengthArray = array_intersect_key($length, $allowed);
             if (count($length) > 0 and count($lengthArray) == 0) throw new \InvalidArgumentException(sprintf('Argument $length is array and looks invalid. Allowed keys are: patch, char. It contains: %s', join(', ', array_keys($length))));
             if (!isset($lengthArray['patch'])) {
-                $length = null;
+                if (array_key_exists('patch', $lengthArray) and isset($lengthArray['char'])) {
+                    $length = $lengthArray['char'];
+                } else {
+                    $length = null;
+                }
             } else {
                 $fromPatch = null;
                 if (isset($fromArray) and isset($fromArray['patch'])) {
@@ -195,20 +199,13 @@ class PregStreamPatch
     /**
      * Builds and returns a new instance of PregStreamPatch by given portion of stream patched, regarding the skip-rule
      *
-     * Arguments $from and $length can also be passed as arrays. Both could contain 'patch' and 'char' options. On $from
-     * the 'patch'-option means the index of first patch (from {@link $offsets}) and 'char'-option means offset in
-     * characters from patch index (or beginning if 'patch' is NULL or left) - both could be left. On argument $length
-     * the 'patch'-option means length in indices of patches and 'char' means offset in characters on top of the given
-     * 'patch'-option - both could be left or NULL, but works somehow differently: when 'patch' left or is NULL it's
-     * equals with $length=NULL, when 'char' left it will not counts but counted up to the next patch (or end of stream)
-     * if it was declared as NULL.
-     *
      * @param int|array $from Beginning position on the separated stream
      * @param int|array $skip Skip-rules by SKIP_* constants
      * @param int|null $length Positive length of portion within the separated stream, or leave it NULL (up to the end)
      * @return PregStreamPatch
      * @throws \InvalidArgumentException When $length have a negative value, or $from or $length passed as array but contains illegal options
      * @throws \OutOfRangeException When $from is array and given 'patch'-option points out of the range of patches
+     * @see build
      * @see SKIP_NONE
      * @see SKIP_LEFT
      * @see SKIP_RIGHT
